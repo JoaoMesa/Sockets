@@ -1,0 +1,2 @@
+Este é um exemplo de escrita em arquivo em Python.
+Você pode adicionar mais texto aqui.
