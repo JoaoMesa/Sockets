@@ -1,5 +1,21 @@
 from socket import *
 
+def receberArquivo():
+	nome_arquivo = connectionSocket.recv(1024).decode()
+	dados = connectionSocket.recv(1024).decode()
+	with open(nome_arquivo, 'w') as arquivo:
+		arquivo.write(dados)
+		print("Arquivo recebido com sucesso")
+
+
+def enviarArquivo():
+	nome_arquivo = connectionSocket.recv(1024).decode()
+	with open(nome_arquivo, 'r') as arquivo:
+		dados = arquivo.read()
+		connectionSocket.send(dados.encode())
+		print("Arquivo enviado com sucesso")
+
+
 serverPort = 12001
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(('', serverPort))
@@ -11,18 +27,14 @@ while True:
 	choice = connectionSocket.recv(1024).decode()
     
 	if choice == '2':
-		dados = connectionSocket.recv(1024).decode()
-		with open('arquivo_recebido.txt', 'w') as arquivo:
-			arquivo.write(dados)
-		print("Arquivo recebido com sucesso")
+		receberArquivo()
 	
 	elif choice == '3':
-		nome_arquivo = connectionSocket.recv(1024).decode()
-		with open(nome_arquivo + '.txt', 'r') as arquivo:
-			dados = arquivo.read()
-			connectionSocket.send(dados.encode())
-			print("Arquivo enviado com sucesso")
+		enviarArquivo()
             
 	confirmation = 'Connected, everything went OK'
 	connectionSocket.send(confirmation.encode())
 	connectionSocket.close()
+	
+	
+	
