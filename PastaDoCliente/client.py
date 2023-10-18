@@ -1,5 +1,21 @@
 from socket import *
 
+def enviarArquivo(clientSocket):
+	nome_arquivo = input("Digite o nome do arquivo a ser enviado: ")
+	clientSocket.send(nome_arquivo.encode())
+	with open(nome_arquivo, 'r') as arquivo:
+		dados = arquivo.read()
+		clientSocket.send(dados.encode())
+		print("Arquivo enviado com sucesso\n")
+
+def receberArquivo(clientSocket):
+	nome_arquivo = input("Digite o nome do arquivo a ser recebido: ")
+	clientSocket.send(nome_arquivo.encode())
+	dados = clientSocket.recv(1024).decode()
+	with open(nome_arquivo, 'w') as arquivo:
+		arquivo.write(dados)
+	print("Arquivo recebido com sucesso\n")
+
 serverName = ''
 serverPort = 12001
 clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -12,20 +28,9 @@ while True:
 	if choice == 1:
 		break
 	elif choice == 2:
-		nome_arquivo = input("Digite o nome do arquivo a ser enviado: ")
-		clientSocket.send(nome_arquivo.encode())
-		with open(nome_arquivo, 'r') as arquivo:
-			dados = arquivo.read()
-			clientSocket.send(dados.encode())
-			print("Arquivo enviado com sucesso\n")
+		enviarArquivo(clientSocket)
 	elif choice == 3:
-		nome_arquivo = input("Digite o nome do arquivo a ser recebido: ")
-		clientSocket.send(nome_arquivo.encode())
-		dados = clientSocket.recv(1024).decode()
-		with open(nome_arquivo, 'w') as arquivo:
-			arquivo.write(dados)
-		print("Arquivo recebido com sucesso\n")
-		
+		receberArquivo(clientSocket)
 	elif choice == 4:
 		nome_arquivo = input("Digite o nome do arquivo a ser criado (lembre de especificar o tipo do arquivo: \n")
 		dados = input("O que escrever no arquivo?\n")
