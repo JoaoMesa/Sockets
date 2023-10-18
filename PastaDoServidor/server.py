@@ -5,7 +5,7 @@ def receberArquivo():
 	dados = connectionSocket.recv(1024).decode()
 	with open(nome_arquivo, 'w') as arquivo:
 		arquivo.write(dados)
-		print("Arquivo recebido com sucesso")
+		print("Arquivo recebido com sucesso\n")
 
 
 def enviarArquivo():
@@ -13,14 +13,14 @@ def enviarArquivo():
 	with open(nome_arquivo, 'r') as arquivo:
 		dados = arquivo.read()
 		connectionSocket.send(dados.encode())
-		print("Arquivo enviado com sucesso")
+		print("Arquivo enviado com sucesso\n")
 
 
 serverPort = 12001
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
-print('The server is ready to receive')
+print('The server is ready to receive\n')
 
 while True:
 	connectionSocket, addr = serverSocket.accept()

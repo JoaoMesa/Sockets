@@ -6,7 +6,7 @@ clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName, serverPort))
 
 while True:
-	choice = int(input("O que você quer?\n 1 - Sair \n 2 - Armazenar arquivo \n 3 - Receber Arquivo\n 4 - Criar arquivo localmente"))
+	choice = int(input("O que você quer?\n 1 - Sair \n 2 - Armazenar arquivo \n 3 - Receber Arquivo\n 4 - Criar arquivo localmente\n"))
 	clientSocket.send(str(choice).encode())
     
 	if choice == 1:
@@ -27,7 +27,7 @@ while True:
 		print("Arquivo recebido com sucesso\n")
 		
 	elif choice == 4:
-		nome_arquivo = input("Digite o nome do arquivo a ser criado (lembre de especificar o tipo do arquivo): \n")
+		nome_arquivo = input("Digite o nome do arquivo a ser criado (lembre de especificar o tipo do arquivo: \n")
 		dados = input("O que escrever no arquivo?\n")
 		with open(nome_arquivo, 'w') as arquivo:
 			arquivo.write(dados)
