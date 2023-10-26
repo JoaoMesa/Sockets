@@ -2,13 +2,26 @@ from socket import *
 import threading
 
 def receberArquivo(connectionSocket):
-    nome_arquivo = connectionSocket.recv(1024).decode()
-    print("nome_arquivo  "+nome_arquivo)
-    dados = connectionSocket.recv(1024).decode()
-    print("dados  "+dados)
-    with open(nome_arquivo, 'w') as arquivo:
-        arquivo.write(dados)
-    print("Arquivo recebido com sucesso\n")
+    # Lê o nome do arquivo até o delimitador
+	nome_arquivo = ""
+	delimitador = "@"  # Delimitador personalizado, como uma quebra de linha
+
+	while True:
+		caractere = connectionSocket.recv(1).decode()
+		if caractere == delimitador:
+			break
+		nome_arquivo += caractere
+
+	print("nome_arquivo  " + nome_arquivo)
+
+	# Lê os dados
+	dados = connectionSocket.recv(1024).decode()
+
+	with open(nome_arquivo, 'w') as arquivo:
+		arquivo.write(dados)
+
+	print("Arquivo recebido com sucesso\n")
+
 
 def enviarArquivo(connectionSocket):
     nome_arquivo = connectionSocket.recv(1024).decode()
